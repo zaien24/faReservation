@@ -11,6 +11,13 @@ class ReservationUseCase(
 ) {
 
     fun registerReservation(userId: Long, reservedAt: LocalDateTime): Reservation {
+        // 1. 중복 예약 여부 확인
+        val existing = reservationRepository.findByUserIdAndReservedAt(userId, reservedAt)
+        if (existing != null) {
+            throw IllegalStateException("이미 해당 시간에 예약이 존재합니다.")
+        }
+
+        // 2. 예약 저장
         val reservation = Reservation(
             userId = userId,
             reservedAt = reservedAt
