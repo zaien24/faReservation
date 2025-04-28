@@ -18,4 +18,12 @@ class ReservationUseCase(
 
         return reservationRepository.save(reservation)
     }
+
+    fun getReservationsByUser(userId: Long): List<Reservation> {
+        return reservationRepository.findByUserId(userId)
+    }
+
+    fun cancelReservation(reservationId: Long) {
+        reservationRepository.deleteById(reservationId)
+    }
 }

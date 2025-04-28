@@ -2,10 +2,7 @@ package com.work.fareservation.infrastructure.reservation
 
 import com.work.fareservation.application.reservation.ReservationUseCase
 import com.work.fareservation.domain.reservation.Reservation
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 @RestController
@@ -22,6 +19,16 @@ class ReservationController(
             request.userId,
             request.reservedAt
         )
+    }
+
+    @GetMapping
+    fun getReservations(@RequestParam userId: Long): List<Reservation> {
+        return reservationUseCase.getReservationsByUser(userId)
+    }
+
+    @DeleteMapping("/{id}")
+    fun cancelReservation(@PathVariable id: Long) {
+        reservationUseCase.cancelReservation(id)
     }
 }
 
